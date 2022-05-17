@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Place\Service;
 
 use Nyholm\Psr7\Factory\Psr17Factory;

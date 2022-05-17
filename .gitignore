@@ -1,1 +1,3 @@
 docker/mysql/
+/app/public/templates_c/
+/app/vendor/

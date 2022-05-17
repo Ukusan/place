@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Place\Service;
 
 use Cycle\Annotated;
@@ -13,7 +15,6 @@ use Spiral\Tokenizer;
 
 class Persistence
 {
-    private const DATABASE_PATH = __DIR__ . '/../../database.sqlite';
     private const ENTITY_DIR = __DIR__ . '/../Entity/';
 
     private Orm\Factory $factory;

@@ -1,6 +1,8 @@
 <?php
 
-namespace Place\Controller;
+declare(strict_types=1);
+
+namespace Place\Controller\API;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Place\Entity\Pixel;
@@ -10,7 +12,7 @@ use Place\Service\Template;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class PlaceController
+class PanelController
 {
 
     public function __construct(
@@ -27,7 +29,7 @@ class PlaceController
         return $this->createResponse(200, $this->template->render('index.tpl',['pixels' => $pixels]));
     }
 
-    public function sse(ServerRequestInterface $request): ResponseInterface
+    public function keepUpdate(ServerRequestInterface $request): ResponseInterface
     {
         $response = $this->notifier->createResponse();
         $response->send();
@@ -50,6 +52,13 @@ class PlaceController
         return $this->createResponse(200, $formatted);
     }
 
+    public function reset(ServerRequestInterface $request): ResponseInterface
+    {
+        $this->place->resetPanel();
+
+        return $this->createResponse(200, null);
+    }
+
     public function setPixel(ServerRequestInterface $request): ResponseInterface
     {
         $post = $request->getParsedBody();
@@ -65,25 +74,6 @@ class PlaceController
 
         $pixel->setColor($color);
         $this->place->setPixel($pixel);
-
-        return $this->createResponse(200, [
-            'x' => $pixel->getX(),
-            'y' => $pixel->getY(),
-            'color' => $pixel->getColor(),
-            'updatedAt' => $pixel->getUpdatedAt()->format(DATE_ATOM)
-        ]);
-    }
-
-    public function getPixel(ServerRequestInterface $request): ResponseInterface
-    {
-        $x = $request->getAttribute('x');
-        $y = $request->getAttribute('y');
-
-        $pixel = $this->place->getPixelAt($x, $y);
-
-        if(!$pixel instanceof Pixel){
-            return $this->createResponse(404);
-        }
 
         return $this->createResponse(200, [
             'x' => $pixel->getX(),

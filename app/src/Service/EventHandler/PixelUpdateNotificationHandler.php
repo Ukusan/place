@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Place\Service\EventHandler;
 
 use Cycle\ORM\ORM;

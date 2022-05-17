@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Place\Entity;
 
 use Cycle\Annotated\Annotation\Entity;
